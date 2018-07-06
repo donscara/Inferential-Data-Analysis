@@ -1,0 +1,70 @@
+---
+title: "Inferential Data Analysis"
+author: "Donato Scarano"
+date: "03 luglio 2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Basic Inferential Data Analysis
+
+In this project, we're going to analyze the ToothGrowth data in the R datasets package.
+
+#Load the ToothGrowth data and perform some basic exploratory data analyses.
+
+```{r echo=TRUE}
+library(datasets)
+data("ToothGrowth")
+```
+
+Let's start looking at the structure of the dataset and let us consult the help section with the dataset details.
+
+```{r echo=TRUE}
+str(ToothGrowth)
+?ToothGrowth
+```
+
+We want to see first how the dose received either via Vitamin C or Orange Juice is related to the tooth length.
+Let us plot the relation above to get a first look.
+
+```{r echo=TRUE}
+plot(ToothGrowth$len ~ ToothGrowth$dose, xlab = "Dose", ylab = "Length", col = c("red", "black"))
+legend("topleft",c("Orange Juice", "Vitamin C"),pch = 1, col = c("red", "black"))
+```
+There seems to be a positive correlation between the dose and the tooth growth.
+
+#Provide a basic summary of the data.
+
+Let us use the summary function to obtain a basic outline
+
+```{r echo=TRUE}
+summary(ToothGrowth)
+```
+
+#Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+Confidence intervals, we fit a linear model and we apply the confint function to obtain them:
+
+```{r echo=TRUE}
+fitd <- lm(ToothGrowth$len ~ ToothGrowth$dose)
+confint(fitd)
+```
+
+Same process can be apllied for supp variable as well:
+
+```{r echo=TRUE}
+fits <- lm(ToothGrowth$len ~ ToothGrowth$supp)
+confint(fits)
+```
+
+or for both togheter:
+
+```{r echo=TRUE}
+fittotal <- lm(ToothGrowth$len~ToothGrowth$supp + ToothGrowth$dose)
+confint(fittotal)
+```
+
+#State your conclusions and the assumptions needed for your conclusions.
+
+There is certainly a positive correlation between tooth length and dose but we see a negative one between tooth length and supp VC as shown in confidence interval above. OJ seems to have a greater impact than VC.
